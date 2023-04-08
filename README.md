@@ -1,2 +1,2 @@
 # visual-plugin
-connect ui manuscript to engineer process
+connect ui manuscript to engineer process by mastergo plugin
