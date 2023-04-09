@@ -85,7 +85,7 @@ function App() {
             <input placeholder='输入Accesskey'></input>
             <input placeholder='输入SecretKey'></input>
             <button onClick={handleClick}>上传cdn</button>
-            <input placeholder='输入对比地址'></input> <button>识别</button>
+            <input placeholder='输入对比地址'></input> <button>对比差异</button>
         </div>
     )
 }
