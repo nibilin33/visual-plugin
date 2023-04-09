@@ -1,0 +1,6 @@
+{
+  "name": "visual-plugin",
+  "id": 90832451130804,
+  "main": "dist/main.js",
+  "ui": "dist/index.html"
+}
