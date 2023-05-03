@@ -12,9 +12,12 @@ function upload(list: Array<any>) {
             for (let node of list) {
                 const blob = new Blob([node.data], { type: 'image/png' });
                 const file = new File([blob], node.name, { type: 'image/png' });
-                uploadFile(file, node.name);
-                const img = await blobToImg(blob);
-                imgList.push(img);
+                const res:any = await uploadFile(file, node.name);
+                const img:any = await blobToImg(blob);
+                imgList.push({
+                    currentSrc: img.currentSrc,
+                    cdnUrl: res? res.domain+'/'+node.name : '失败'
+                });
             }
             resolve(imgList);
         })
@@ -43,10 +46,11 @@ function App() {
             const { data } = msg;
             if (data.type === UIMessage.EXP) {
                 const rs: any = await upload(data.data);
-                console.log(rs);
                 setImgList(rs.map((it: any) => {
+                    console.log(it);
                     return {
-                        src: it.currentSrc
+                        src: it.currentSrc,
+                        cdnUrl: it.cdnUrl
                     }
                 }));
             }
@@ -77,8 +81,12 @@ function App() {
             <ul>
                 {
                     imgList.map((it: any, index) => {
-                        return <img key={'img' + index} src={it.src}>
-                        </img>
+                        return  <div>
+                            <img key={'img' + index} src={it.src}>
+                            </img>
+                            <p>{it.cdnUrl}</p>
+                        </div>
+                       
                     })
                 }
             </ul>
