@@ -14,7 +14,7 @@ var config=JSON.parse(fs.readFileSync(path.resolve(__dirname,"config.json")));
 var mac = new qiniu.auth.digest.Mac(config.AccessKey, config.SecretKey);
 var config2 = new qiniu.conf.Config();
 // 这里主要是为了用 node sdk 的 form 直传，结合 demo 中 form 方式来实现无刷新上传
-// config2.zone = qiniu.zone.Zone_z2;
+config2.zone = qiniu.zone.Zone_z0;// 华东区域
 config2.useCdnDomain = true;
 var options = {
   scope: config.Bucket,
@@ -28,6 +28,7 @@ var putPolicy = new qiniu.rs.PutPolicy(options);
 var bucketManager = new qiniu.rs.BucketManager(mac, null);
 app.get("/api/uptoken", function(req, res, next) {
   var token = putPolicy.uploadToken(mac);
+  console.log(token);
   res.header("Cache-Control", "max-age=0, private, must-revalidate");
   res.header("Pragma", "no-cache");
   res.header("Expires", 0);
@@ -43,8 +44,5 @@ app.listen(config.Port, function() {
   console.log("Listening on port %d\n", config.Port);
   console.log(
     "▽ ▽ ▽ ▽ ▽ ▽ ▽ ▽ ▽ ▽ ▽ ▽ ▽  Demos  ▽ ▽ ▽ ▽ ▽ ▽ ▽ ▽ ▽ ▽ ▽ ▽ ▽ ▽ ▽ ▽"
-  );
-  console.log(
-    "△ △ △ △ △ △ △ △ △ △ △ △ △ △ △ △ △ △ △ △ △ △ △ △ △ △ △ △ △ △ △ △ △\n"
   );
 });
